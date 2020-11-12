@@ -3,7 +3,6 @@
 
   export let component;
   export let componentClicked;
-  console.log(componentClicked);
 
   let container;
 
@@ -15,7 +14,6 @@
   };
 
   onMount(() => {
-    console.log(component);
     updateSVG(component);
   });
   $: updateSVG(component);
