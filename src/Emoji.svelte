@@ -3,13 +3,19 @@
   export let emoji;
 
   export let emojiClicked;
-  console.log(emojiClicked);
 
   const string = JSON.stringify(emoji, null, 4);
   let svg = null;
+  let curReq = 0;
   async function loadSvg(url) {
-    svg = await get(url);
+    curReq++;
+    const draw = curReq;
+    const res = await get(url);
+    if (draw === curReq) {
+      svg = res;
+    }
   }
+
   $: loadSvg(emoji.url);
   loadSvg(emoji.url);
 </script>
