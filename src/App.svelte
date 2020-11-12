@@ -33,7 +33,6 @@
         emoji={selectedEmoji}
         componentClicked={(c) => {
           components = [...components, c];
-          console.log(components);
         }} />
       <EmojiMashup {components} />
     </div>
