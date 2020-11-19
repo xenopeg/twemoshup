@@ -24,7 +24,7 @@
     display: inline-block;
     padding: 5px;
     border-radius: 3px;
-    background: #fafafa;
+    background: #f3f3f3;
     margin: 5px;
   }
   .moji > :global(svg) {

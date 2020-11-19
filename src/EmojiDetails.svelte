@@ -6,12 +6,18 @@
   export let emoji;
   export let componentClicked;
 
-  $: svg = emoji ? htmlToEl(emoji.svg) : null;
-
   let container;
   let components = [];
+  let svg = null;
 
-  const updateSVG = (svg) => {
+  function updateSelected() {
+    console.log("updateSelected");
+    svg = emoji ? htmlToEl(emoji.svg) : null;
+    updateSVG(svg);
+  }
+
+  function updateSVG(svg) {
+    console.log("updateSVG");
     if (!container) return;
     container.innerHTML = "";
     components = [];
@@ -23,12 +29,10 @@
       component.appendChild(path.cloneNode());
       components.push(component);
     }
-  };
+  }
 
-  onMount(() => {
-    updateSVG(svg);
-  });
-  $: updateSVG(svg);
+  $: updateSelected(emoji);
+  updateSelected(emoji);
 </script>
 
 <style>
@@ -41,10 +45,8 @@
 </style>
 
 <div>
-  {#if svg}
-    <span class="moji" bind:this={container} />
-    {#each components as component}
-      <EmojiComponent {component} {componentClicked} />
-    {/each}
-  {/if}
+  <span class="moji" bind:this={container} />
+  {#each components as component}
+    <EmojiComponent {component} {componentClicked} />
+  {/each}
 </div>
