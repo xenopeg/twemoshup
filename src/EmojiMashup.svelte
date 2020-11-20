@@ -25,14 +25,44 @@
     }
   };
 
-  function getSVG() {
-    var link = document.createElement("a");
-    link.download = "ohno.svg";
+  function dl(filename, data) {
+    const link = document.createElement("a");
+    link.download = filename;
     link.style.display = "none";
     document.body.append(link);
-    link.href = "data:image/svg+xml;base64,\n" + btoa(container.innerHTML);
+    link.href = data;
     link.click();
     link.remove();
+  }
+
+  function getSVG() {
+    dl(
+      `mash.${Date.now()}.svg`,
+      "data:image/svg+xml;base64,\n" + btoa(container.innerHTML)
+    );
+  }
+
+  function getPNG() {
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("width", 512);
+    canvas.setAttribute("height", 512);
+    const ctx = canvas.getContext("2d");
+
+    const img = document.createElement("img");
+    img.setAttribute(
+      "src",
+      "data:image/svg+xml;base64,\n" + btoa(container.innerHTML)
+    );
+    img.setAttribute("width", 512);
+    img.setAttribute("height", 512);
+
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0);
+
+      // Now is done
+      console.log(canvas.toDataURL("image/png"));
+      dl(`mash.${Date.now()}.png`, canvas.toDataURL("image/png"));
+    };
   }
 
   onMount(() => {
@@ -74,6 +104,9 @@
     <div class="mashup"><span class="moji" bind:this={container} /></div>
   </div>
   <button
-    style={'display:' + (components.length > 0 ? 'block' : 'none')}
-    on:click={(_) => getSVG()}>Download</button>
+    style={'display:' + (components.length > 0 ? 'inline-block' : 'none')}
+    on:click={(_) => getSVG()}>Download SVG</button>
+  <button
+    style={'display:' + (components.length > 0 ? 'inline-block' : 'none')}
+    on:click={(_) => getPNG()}>Download PNG</button>
 </div>
