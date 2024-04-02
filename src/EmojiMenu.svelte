@@ -25,7 +25,7 @@
       emoji,
       discordName: discordMap[emoji.char],
       url:
-        "https://twemoji.maxcdn.com/v/13.0.1/svg/" +
+        "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/" +
         twemoji.convert.toCodePoint(emoji.char) +
         ".svg",
     });
@@ -33,6 +33,13 @@
 
   let search = "";
 </script>
+
+<menu>
+  <input bind:value={search} />
+  {#each Object.keys(emojiCats) as k}
+    <EmojiGroup emojiGroup={emojiCats[k]} name={k} {search} {emojiClicked} />
+  {/each}
+</menu>
 
 <style>
   menu {
@@ -46,10 +53,3 @@
     width: 100%;
   }
 </style>
-
-<menu>
-  <input bind:value={search} />
-  {#each Object.keys(emojiCats) as k}
-    <EmojiGroup emojiGroup={emojiCats[k]} name={k} {search} {emojiClicked} />
-  {/each}
-</menu>
